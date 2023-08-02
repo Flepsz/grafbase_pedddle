@@ -1,3 +1,4 @@
+import { createUserMutation, getUserQuery } from "@/graphql";
 import { GraphQLClient } from "graphql-request";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -21,5 +22,16 @@ const makeGrafQLRequest = async (query: string, variables = {}) => {
 };
 
 export const getUser = (email: string) => {
-    return makeGrafQLRequest()
+    client.setHeader("x-api-key", apiKey)
+    return makeGrafQLRequest(getUserQuery, { email })
+}
+
+export const createUser = (name: string, email: string, avatarUrl: string) => {
+    client.setHeader("x-api-key", apiKey)
+    const variables = {
+        input: {
+            name, email, avatarUrl
+        }
+    }
+    return makeGrafQLRequest(createUserMutation, variables)
 }

@@ -14,7 +14,7 @@ type Provider = {
 
 type Providers = Record<string, Provider>;
 
-export default function AuthProviders() {
+function AuthProviders() {
     const [providers, setProviders] = useState<Providers | null>(null);
 
     useEffect(() => {
@@ -43,3 +43,5 @@ export default function AuthProviders() {
         );
     }
 }
+
+export default AuthProviders;
