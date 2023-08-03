@@ -45,7 +45,7 @@ export default async function Navbar() {
 
                         <Link href="/create-project">Share Work</Link>
 
-                        <button type="button" className="text-sm" onClick={signOut}></button>
+                        {/* <button type="button" className="text-sm" onClick={signOut}></button> */}
                     </>
                 ) : (
                     <AuthProviders />

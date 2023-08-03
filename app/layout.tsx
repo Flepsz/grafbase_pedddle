@@ -3,7 +3,7 @@ import "./globals.css"
 import Footer from "@/components/Footer"
 
 export const metadata = {
-  title: 'Padddle',
+  title: 'Pedddle',
   description: "Discover the World's Top Designers & Creative Professionals",
 }
 
