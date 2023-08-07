@@ -1,37 +1,67 @@
+import { ProjectForm } from "@/common.types";
 import { createUserMutation, getUserQuery } from "@/graphql";
 import { GraphQLClient } from "graphql-request";
 
 const isProduction = process.env.NODE_ENV === "production";
 const apiUrl = isProduction
-    ? process.env.NEXT_PUBLIC_GRAFBASE_API_URL || ""
-    : "http://127.0.0.1:4000/graphql";
+	? process.env.NEXT_PUBLIC_GRAFBASE_API_URL || ""
+	: "http://127.0.0.1:4000/graphql";
 const apiKey = isProduction
-    ? process.env.NEXT_PUBLIC_GRAFBASE_API_URL || ""
-    : "letmein";
+	? process.env.NEXT_PUBLIC_GRAFBASE_API_URL || ""
+	: "letmein";
 
-const serverUrl = isProduction ? process.env.NEXT_PUBLIC_SERVER_URL : "http://localhost:3000";
+const serverUrl = isProduction
+	? process.env.NEXT_PUBLIC_SERVER_URL
+	: "http://localhost:3000";
 
 const client = new GraphQLClient(apiUrl);
 
 const makeGrafQLRequest = async (query: string, variables = {}) => {
-    try {
-        return await client.request(query, variables)
-    } catch (error) {
-        throw error;
-    }
+	try {
+		return await client.request(query, variables);
+	} catch (error) {
+		throw error;
+	}
 };
 
 export const getUser = (email: string) => {
-    client.setHeader("x-api-key", apiKey)
-    return makeGrafQLRequest(getUserQuery, { email })
-}
+	client.setHeader("x-api-key", apiKey);
+	return makeGrafQLRequest(getUserQuery, { email });
+};
 
 export const createUser = (name: string, email: string, avatarUrl: string) => {
-    client.setHeader("x-api-key", apiKey)
-    const variables = {
-        input: {
-            name, email, avatarUrl
-        }
+	client.setHeader("x-api-key", apiKey);
+	const variables = {
+		input: {
+			name,
+			email,
+			avatarUrl,
+		},
+	};
+	return makeGrafQLRequest(createUserMutation, variables);
+};
+
+export const uploadImage = async (imagePath: string) => {
+	try {
+		const response = await fetch(`${serverUrl}/api/upload`, {
+			method: "POST",
+			body: JSON.stringify({ path: imagePath }),
+		});
+
+		return response.json();
+	} catch (error) {
+		throw error;
+	}
+};
+
+export const createNewProject = async (
+	form: ProjectForm,
+	creatorId: string,
+	token: string
+) => {
+	const imageUrl = await uploadImage(form.image);
+
+    if (imageUrl.url) {
+        return makeGrafQLRequest(createProjectMutation, variables)
     }
-    return makeGrafQLRequest(createUserMutation, variables)
-}
+};
