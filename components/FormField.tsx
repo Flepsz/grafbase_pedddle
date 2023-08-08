@@ -7,7 +7,7 @@ interface IFormFieldProps {
 	setState: (value: string) => void;
 }
 
-export default function FormField({
+export default function FormField ({
 	type,
 	title,
 	state,

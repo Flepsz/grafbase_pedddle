@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
+import { NextResponse } from "next/server";
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_NAME,
@@ -9,6 +9,7 @@ cloudinary.config({
 
 export async function POST(req: Request) {
 	const { path } = await req.json();
+	
 	if (!path) {
 		return NextResponse.json(
 			{ message: "Image path is required" },
