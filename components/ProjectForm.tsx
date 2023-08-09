@@ -16,6 +16,7 @@ interface FormProps {
 	session: SessionInterface;
 }
 
+
 export default function ProjectForm({ type, session }: FormProps) {
 	const router = useRouter();
 
@@ -32,6 +33,9 @@ export default function ProjectForm({ type, session }: FormProps) {
 
 	const handleFormSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		
+
+		console.log(process.env.NEXTAUTH_SECRET, process.env.CLOUDINARY_KEY!, process.env.CLOUDINARY_SECRET!, process.env.NODE_ENV!);
 
 		setIsSubmitting(true);
 
@@ -44,7 +48,7 @@ export default function ProjectForm({ type, session }: FormProps) {
 				router.push("/")
 			}
 		} catch (error) {
-			console.log(error);
+			alert(`Failed to ${type === "create" ? "create" : "edit"} a project. Try again!`);
 		} finally {
 			setIsSubmitting(false)
 		}

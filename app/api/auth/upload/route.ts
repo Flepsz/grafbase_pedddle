@@ -2,13 +2,16 @@ import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
 cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_NAME,
-	api_key: process.env.CLOUDINARY_KEY,
-	api_secret: process.env.CLOUDINARY_SECRET,
+	cloud_name: "dgcw83neo",
+	api_key: "813376842831133",
+	api_secret: "O_DGDJhCy4heHGw-7KNapoUvNNA",
 });
 
-export async function POST(req: Request) {
-	const { path } = await req.json();
+console.log(process.env.CLOUDINARY_NAME, process.env.CLOUDINARY_KEY, process.env.CLOUDINARY_SECRET);
+
+
+export async function POST(request: Request) {
+	const { path } = await request.json();
 	
 	if (!path) {
 		return NextResponse.json(
